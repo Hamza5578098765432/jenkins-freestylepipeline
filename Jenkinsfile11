@@ -1,0 +1,31 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Code Checkout') {
+            steps {
+                checkout scm
+
+                sh '''
+                    echo "Repository name:"
+                    basename -s .git "$(git config --get remote.origin.url)"
+
+                    echo "Remote URL:"
+                    git config --get remote.origin.url
+
+                    echo "Current branch:"
+                    git branch --show-current
+
+                    echo "Workspace files:"
+                    ls -la
+                '''
+            }
+        }
+
+        stage('Build') {
+            steps {
+                echo 'Build stage is running'
+            }
+        }
+    }
+}
